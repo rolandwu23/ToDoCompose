@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collect
 
 @Composable
 fun ToDoListScreen(
-    navController: NavController,
+    onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: ToDoListViewModel = hiltViewModel()
 ) {
     val toDos = viewModel.toDos.collectAsState(emptyList())
@@ -31,7 +31,7 @@ fun ToDoListScreen(
         viewModel.uiEvent.collect { uiEvent: UiEvent ->
             when(uiEvent){
                 is UiEvent.Navigate -> {
-                    navController.navigate(uiEvent.route)
+                    onNavigate(uiEvent)
                 }
                 is UiEvent.ShowSnackBar -> {
                     val result = scaffoldState.snackbarHostState.showSnackbar(
